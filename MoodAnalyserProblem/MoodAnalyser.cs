@@ -4,34 +4,33 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace MoodAnalyserProblem
+namespace MoodAnalyserProblem;
+
+public class MoodAnalyser
 {
-    public class MoodAnalyser
+    private string message;
+
+    public MoodAnalyser(string message)
     {
-        public string message;
+        this.message = message;
+    }
 
-        public MoodAnalyser(string message)
+    public string AnalyserMood()
+    {
+        try
         {
-            this.message = message;
+            if (this.message.Equals(string.Empty))
+            {
+                throw new MoodAnalyserCustomException(MoodAnalyserCustomException.Exceptiontype.EMPTYMESSAGE, "Mood should not be empty");
+            }
+
+            if (this.message.Contains("Sad"))
+                return "Sad";
+            return "Happy";
         }
-
-        public string AnalyserMood()
+        catch (NullReferenceException)
         {
-            try
-            {
-                if (this.message.ToLower().Contains("sad"))
-                {
-                    return "sad";
-                }
-                else
-                {
-                    return "happy";
-                }
-            }
-            catch(Exception)
-            {
-                return "happy";
-            }
+            throw new MoodAnalyserCustomException(MoodAnalyserCustomException.Exceptiontype.NULLMESSAGE, "Mood should not be null");
         }
     }
 }
